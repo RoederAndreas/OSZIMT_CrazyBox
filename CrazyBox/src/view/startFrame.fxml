@@ -8,8 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ListView fx:id="listCase" layoutX="80.0" layoutY="75.0" prefHeight="300.0" prefWidth="250.0" />
-      <ListView fx:id="listItems" layoutX="370.0" layoutY="75.0" prefHeight="300.0" prefWidth="250.0" />
+      <ListView fx:id="listItems" editable="true" layoutX="370.0" layoutY="75.0" prefHeight="300.0" prefWidth="250.0" />
       <Button fx:id="btnCreateCase" layoutX="80.0" layoutY="401.0" mnemonicParsing="false" prefWidth="60.0" text="Neu" />
       <Button fx:id="btnRenameCase" layoutX="161.0" layoutY="401.0" mnemonicParsing="false" text="Umbenennen" />
       <Button fx:id="btnDeleteCase" layoutX="270.0" layoutY="401.0" mnemonicParsing="false" text="Löschen" />
@@ -26,5 +25,6 @@
             <Font size="15.0" />
          </font>
       </Label>
+      <ListView fx:id="listCase" layoutX="80.0" layoutY="75.0" prefHeight="300.0" prefWidth="250.0" />
    </children>
 </AnchorPane>
