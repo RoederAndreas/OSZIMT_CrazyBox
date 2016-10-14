@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import entities.Case;
 import entities.Item;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,6 +37,7 @@ public class StartFrameController implements Initializable{
 	@FXML
 	private Button btnDeleteItem;
 	private Case selctedCase;
+	private ObservableList<Case> getAllCases ;
 	
 	public StartFrameController(IFachkonzept fachkonzept, IDatenhaltung datenhaltung) {
 		this.fachkonzept = fachkonzept;
@@ -83,6 +85,7 @@ public class StartFrameController implements Initializable{
 		fachkonzept.setDatenhaltung(datenhaltung);
 		fachkonzept.createDBConnection();
 		listCase.setCellFactory(listCallbackCaseList);
+		getAllCases = fachkonzept.showAllCases();
 		listCase.setItems(fachkonzept.showAllCases());
 		addListener();
 	}
@@ -116,6 +119,12 @@ public class StartFrameController implements Initializable{
 				listItems.setItems(fachkonzept.findItemsFromCase(listCase.getSelectionModel().getSelectedItem().getId()));
 			}
 		});
+		
+		btnCreateItem.setOnAction(event -> {
+			//Noch nicht korrekt 
+			CreateItemFrameController createItemCon = new CreateItemFrameController(this);
+			createItemCon.showCreateFrame("createItemFrame.fxml");
+		});
 	}
 	
 	public static IFachkonzept getFachkonzept(){
@@ -128,5 +137,9 @@ public class StartFrameController implements Initializable{
 	
 	public ListView<Case> getListViewCase(){
 		return listCase;
+	}
+	
+	public ObservableList<Case> getAllCases(){
+		return getAllCases;
 	}
 }

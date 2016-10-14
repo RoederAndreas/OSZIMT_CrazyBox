@@ -42,6 +42,12 @@ public class Fachkonzept1 implements IFachkonzept{
 	public ObservableList<Item> findItemsFromCase(int id) {
 		return datenhaltung.getItemFromCase(id);
 	}
+
+	@Override
+	public void createItem(String designation, int weight, String description, Case selectionCase) {
+		Item item = new Item(designation, weight, description, selectionCase);
+		datenhaltung.createItem(item);
+	}
 	
 	@Override
 	public void setDatenhaltung(IDatenhaltung datenhaltung) {

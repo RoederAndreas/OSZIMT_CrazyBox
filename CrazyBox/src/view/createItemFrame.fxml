@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="304.0" prefWidth="456.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="304.0" prefWidth="456.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CreateItemFrameController">
    <children>
       <Label layoutX="112.0" layoutY="14.0" text="Gegenstand erstellen">
          <font>
@@ -36,7 +35,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <ComboBox fx:id="comboSelectionCase" layoutX="137.0" layoutY="208.0" prefWidth="150.0" />
+      <ComboBox fx:id="comboSelectionCase" layoutX="137.0" layoutY="208.0" prefWidth="150.0" promptText="Bitte auswählen" />
       <TextField fx:id="txtDesignation" layoutX="137.0" layoutY="68.0" />
       <TextField fx:id="txtWeight" layoutX="137.0" layoutY="100.0" />
       <TextArea fx:id="txtAreaDescription" layoutX="137.0" layoutY="142.0" prefHeight="48.0" prefWidth="233.0" />

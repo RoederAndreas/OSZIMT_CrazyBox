@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
 import entities.Case;
 import entities.Item;
@@ -123,6 +122,20 @@ public class Datenhaltung1 implements IDatenhaltung{
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	@Override
+	public void createItem(Item item) {
+		try {
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO Gegenstand (bezeichnung, masse, beschreibung, gegenstandID, fk_kiste_id) VALUES (?, ?, ?, ?, ?)");
+			statement.setString(1, item.getDesignation());
+			statement.setInt(2, item.getWeight());
+			statement.setString(3, item.getDescription());
+			statement.setInt(5, item.getSelectionCase().getId());
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }
