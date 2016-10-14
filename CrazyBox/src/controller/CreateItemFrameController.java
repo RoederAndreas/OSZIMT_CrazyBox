@@ -63,10 +63,9 @@ public class CreateItemFrameController extends StageController{
 	
 	private void createListener(){
 		btnCreateItem.setOnAction(event -> {
-			//if Abfrage fängt alles ab (100% fertig)
 			if (!txtDesignation.getText().trim().equals("") && !txtWeight.getText().trim().equals("") && isNumeric(txtWeight.getText().trim()) == true && comboSelectionCase.getSelectionModel().getSelectedItem() != null){
-				//Hat noch Fehler!
 				startController.getFachkonzept().createItem(txtDesignation.getText(), Integer.parseInt(txtWeight.getText()), txtAreaDescription.getText(), comboSelectionCase.getSelectionModel().getSelectedItem());
+				startController.getListViewItem().setItems(startController.getFachkonzept().findItemsFromCase(comboSelectionCase.getSelectionModel().getSelectedItem().getId()));
 				closeStage(btnCreateItem);
 			}else{System.out.println("Nicht alle Pflichtfelder ausgefüllt!");}
 		});

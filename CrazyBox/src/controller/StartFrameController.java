@@ -115,8 +115,10 @@ public class StartFrameController implements Initializable{
 
 			@Override
 			public void handle(MouseEvent event) {
-				listItems.setCellFactory(listCallbackItemList);
-				listItems.setItems(fachkonzept.findItemsFromCase(listCase.getSelectionModel().getSelectedItem().getId()));
+				if (listCase.getSelectionModel().getSelectedItem() != null){
+					listItems.setCellFactory(listCallbackItemList);
+					listItems.setItems(fachkonzept.findItemsFromCase(listCase.getSelectionModel().getSelectedItem().getId()));
+				}
 			}
 		});
 		
@@ -137,6 +139,10 @@ public class StartFrameController implements Initializable{
 	
 	public ListView<Case> getListViewCase(){
 		return listCase;
+	}
+	
+	public ListView<Item> getListViewItem(){
+		return listItems;
 	}
 	
 	public ObservableList<Case> getAllCases(){
