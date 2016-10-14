@@ -10,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
-		// Test für Commit
 		try {
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("startFrame.fxml"));
 			Scene scene = new Scene(root,400,400);
