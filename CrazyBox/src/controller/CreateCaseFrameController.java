@@ -14,7 +14,7 @@ public class CreateCaseFrameController extends StageController{
 	private Button btnSaveCase;
 	@FXML
 	private Button btnCancel;
-	private StartFrameController startController;
+	private static StartFrameController startController;
 	
 	public CreateCaseFrameController(){}
 	

@@ -6,6 +6,7 @@ import service.IDatenhaltung;
 
 public interface IFachkonzept {
 
+	void createDBConnection();
 	void setDatenhaltung(IDatenhaltung datenhaltung);
 	void createCase(int payload, String name);
 	void editCase(int id, int payload, String name);

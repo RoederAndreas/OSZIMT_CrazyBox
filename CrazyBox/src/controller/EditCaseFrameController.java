@@ -1,10 +1,13 @@
 package controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-public class EditCaseFrameController extends StageController{
+public class EditCaseFrameController extends StageController implements Initializable{
 
 	@FXML
 	private TextField txtCaseName;
@@ -12,12 +15,17 @@ public class EditCaseFrameController extends StageController{
 	private Button btnEdit;
 	@FXML
 	private Button btnCancel;
-	private StartFrameController startController;
+	private static StartFrameController startController;
 	
 	public EditCaseFrameController(){}
+
+	public EditCaseFrameController(StartFrameController startController){
+		this.startController = startController;
+	}
 	
-	@FXML
-	public void initialize(){
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		
 		createListener();
 	}
 	
@@ -28,7 +36,7 @@ public class EditCaseFrameController extends StageController{
 	private void createListener(){
 		btnEdit.setOnAction(event ->{
 			if (!txtCaseName.getText().trim().equals("")){
-				//startController.getFachkonzept().editCase(id, payload, name);
+				startController.getFachkonzept().editCase(startController.getSelctedCase().getId(), startController.getSelctedCase().getPayload(), txtCaseName.getText());
 				closeStage(btnEdit);
 			}
 		});
