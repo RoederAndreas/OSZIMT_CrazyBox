@@ -3,11 +3,14 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 import entities.Case;
+import entities.Item;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import service.IDatenhaltung;
 
@@ -19,7 +22,7 @@ public class StartFrameController implements Initializable{
 	@FXML
 	private ListView<Case> listCase;
 	@FXML
-	private ListView<String> listItems;
+	private ListView<Item> listItems;
 	@FXML
 	private Button btnCreateCase;
 	@FXML
@@ -39,7 +42,7 @@ public class StartFrameController implements Initializable{
 		this.datenhaltung = datenhaltung;
 	}
 	
-	private Callback<ListView<Case>,ListCell<Case>> listCallback = new Callback<ListView<Case>,ListCell<Case>>() {
+	private Callback<ListView<Case>,ListCell<Case>> listCallbackCaseList = new Callback<ListView<Case>,ListCell<Case>>() {
 
 		@Override
 		public ListCell<Case> call(ListView<Case> param) {
@@ -57,20 +60,37 @@ public class StartFrameController implements Initializable{
 		}
 	};
 	
+	private Callback<ListView<Item>,ListCell<Item>> listCallbackItemList = new Callback<ListView<Item>,ListCell<Item>>() {
+
+		@Override
+		public ListCell<Item> call(ListView<Item> param) {
+			ListCell<Item> t = new ListCell<Item>(){
+				protected void updateItem(Item item, boolean empty) {
+					super.updateItem(item,empty);
+					if(item != null){
+						setText(item.getDesignation());
+					}else{
+						setText(null);
+					}
+				};
+			};
+			return t;
+		}
+	};
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		fachkonzept.setDatenhaltung(datenhaltung);
 		fachkonzept.createDBConnection();
-		listCase.setCellFactory(listCallback);
+		listCase.setCellFactory(listCallbackCaseList);
 		listCase.setItems(fachkonzept.showAllCases());
 		addListener();
 	}
 	
 	private void addListener(){
 		btnCreateCase.setOnAction(event -> {
-			CreateCaseFrameController createCon = new CreateCaseFrameController();
+			CreateCaseFrameController createCon = new CreateCaseFrameController(this);
 			createCon.showCreateFrame("createCaseFrame.fxml");
-			listCase.refresh();
 		});
 		
 		btnRenameCase.setOnAction(event -> {
@@ -84,8 +104,18 @@ public class StartFrameController implements Initializable{
 		btnDeleteCase.setOnAction(event -> {
 			if (listCase.getSelectionModel().getSelectedItem() != null){
 				fachkonzept.deleteCase(listCase.getSelectionModel().getSelectedItem().getId());
+				listCase.getItems().setAll(fachkonzept.showAllCases());
 			}else{System.out.println("Wähle etwas aus!");}
 		});	
+		
+		listCase.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				listItems.setCellFactory(listCallbackItemList);
+				listItems.setItems(fachkonzept.findItemsFromCase(listCase.getSelectionModel().getSelectedItem().getId()));
+			}
+		});
 	}
 	
 	public static IFachkonzept getFachkonzept(){
@@ -94,5 +124,9 @@ public class StartFrameController implements Initializable{
 	
 	public Case getSelctedCase(){
 		return selctedCase;
+	}
+	
+	public ListView<Case> getListViewCase(){
+		return listCase;
 	}
 }

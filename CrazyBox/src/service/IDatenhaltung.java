@@ -8,12 +8,11 @@ import javafx.collections.ObservableList;
 
 public interface IDatenhaltung {
 
-	List<Item> getAllItems();
 	ObservableList<Case>  getAllCases();
-	Item findItem(int id);
-	//Case findCase(int id);
+	ObservableList<Item> getItemFromCase(int id);
 	void deleteCase(int id);
 	void editCase(Case editCase);
 	void dbConnection();
 	void createCase(Case createCase);
+	Case findCase(int id);
 }

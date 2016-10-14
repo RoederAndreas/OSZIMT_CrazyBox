@@ -64,19 +64,6 @@ public class Datenhaltung1 implements IDatenhaltung{
 		
 	}
 	
-//	@Override
-//	public Case findCase(int id) {
-//		try {
-//			Statement stmt = connection.createStatement();
-//			ResultSet rs = stmt.executeQuery("SELECT * FROM Kiste WHERE kisteID="+id);
-//			Case myCase = new Case(rs.getInt(3), rs.getInt(1), rs.getString(2));
-//			return myCase;
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}
-	
 	@Override
 	public ObservableList<Case> getAllCases() {
 		ObservableList<Case> allCases = FXCollections.observableArrayList();
@@ -96,14 +83,46 @@ public class Datenhaltung1 implements IDatenhaltung{
 			return null;
 		}
 	}
-	
+
 	@Override
-	public List<Item> getAllItems() {
-		return null;
+	public ObservableList<Item> getItemFromCase(int id) {
+		ObservableList<Item> allItems = FXCollections.observableArrayList();
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Gegenstand WHERE fk_kiste_id="+id);
+			while (rs.next()) {
+				int gID = rs.getInt("gegenstandID");
+				String designation = rs.getString("bezeichnung");
+				String description = rs.getString("beschreibung");
+				int weight = rs.getInt("gegenstandID");
+				int myCase = rs.getInt("fk_kiste_id");
+				Case selectionCase = findCase(myCase);
+				Item myItem = new Item(gID, designation, weight, description, selectionCase);
+				allItems.add(myItem);
+			}
+			return allItems;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
-	public Item findItem(int id) {
-		return null;
+	public Case findCase(int id) {
+		Case findCase = null;
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Kiste WHERE kisteID="+id);
+			while (rs.next()) {
+				int kID = rs.getInt("kisteID");
+				int payload = rs.getInt("payload");
+				String name = rs.getString("name");
+				findCase = new Case(kID, payload, name);
+			}
+			return findCase;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

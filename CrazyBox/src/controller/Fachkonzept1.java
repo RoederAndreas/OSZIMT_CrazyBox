@@ -1,6 +1,7 @@
 package controller;
 
 import entities.Case;
+import entities.Item;
 import javafx.collections.ObservableList;
 import service.IDatenhaltung;
 
@@ -34,10 +35,14 @@ public class Fachkonzept1 implements IFachkonzept{
 
 	@Override
 	public ObservableList<Case> showAllCases() {
-		datenhaltung.dbConnection();
 		return datenhaltung.getAllCases();
 	}
 
+	@Override
+	public ObservableList<Item> findItemsFromCase(int id) {
+		return datenhaltung.getItemFromCase(id);
+	}
+	
 	@Override
 	public void setDatenhaltung(IDatenhaltung datenhaltung) {
 		this.datenhaltung = datenhaltung;

@@ -37,6 +37,7 @@ public class EditCaseFrameController extends StageController implements Initiali
 		btnEdit.setOnAction(event ->{
 			if (!txtCaseName.getText().trim().equals("")){
 				startController.getFachkonzept().editCase(startController.getSelctedCase().getId(), startController.getSelctedCase().getPayload(), txtCaseName.getText());
+				startController.getListViewCase().getItems().setAll(startController.getFachkonzept().showAllCases());
 				closeStage(btnEdit);
 			}
 		});

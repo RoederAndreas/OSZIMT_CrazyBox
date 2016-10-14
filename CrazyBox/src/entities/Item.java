@@ -14,6 +14,14 @@ public class Item {
 		this.description = description;
 		this.selectionCase = selectionCase;
 	}
+	
+	public Item(int id, String designation, int weight, String description, Case selectionCase){
+		this.id = id;
+		this.designation = designation;
+		this.weight = weight;
+		this.description = description;
+		this.selectionCase = selectionCase;
+	}
 
 	public int getId() {
 		return id;
