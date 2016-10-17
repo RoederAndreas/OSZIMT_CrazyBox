@@ -1,9 +1,14 @@
 package controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import entities.Case;
 import entities.Item;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -37,54 +42,17 @@ public class StartFrameController implements Initializable{
 	@FXML
 	private Button btnDeleteItem;
 	private Case selctedCase;
-	private ObservableList<Case> getAllCases ;
+	private ObservableList<Case> getAllCases;
 	
 	public StartFrameController(IFachkonzept fachkonzept, IDatenhaltung datenhaltung) {
 		this.fachkonzept = fachkonzept;
 		this.datenhaltung = datenhaltung;
 	}
 	
-	private Callback<ListView<Case>,ListCell<Case>> listCallbackCaseList = new Callback<ListView<Case>,ListCell<Case>>() {
-
-		@Override
-		public ListCell<Case> call(ListView<Case> param) {
-			ListCell<Case> t = new ListCell<Case>(){
-				protected void updateItem(Case item, boolean empty) {
-					super.updateItem(item,empty);
-					if(item != null){
-						setText(item.getName());
-					}else{
-						setText(null);
-					}
-				};
-			};
-			return t;
-		}
-	};
-	
-	private Callback<ListView<Item>,ListCell<Item>> listCallbackItemList = new Callback<ListView<Item>,ListCell<Item>>() {
-
-		@Override
-		public ListCell<Item> call(ListView<Item> param) {
-			ListCell<Item> t = new ListCell<Item>(){
-				protected void updateItem(Item item, boolean empty) {
-					super.updateItem(item,empty);
-					if(item != null){
-						setText(item.getDesignation());
-					}else{
-						setText(null);
-					}
-				};
-			};
-			return t;
-		}
-	};
-	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		fachkonzept.setDatenhaltung(datenhaltung);
 		fachkonzept.createDBConnection();
-		listCase.setCellFactory(listCallbackCaseList);
 		getAllCases = fachkonzept.showAllCases();
 		listCase.setItems(fachkonzept.showAllCases());
 		addListener();
@@ -116,7 +84,6 @@ public class StartFrameController implements Initializable{
 			@Override
 			public void handle(MouseEvent event) {
 				if (listCase.getSelectionModel().getSelectedItem() != null){
-					listItems.setCellFactory(listCallbackItemList);
 					listItems.setItems(fachkonzept.findItemsFromCase(listCase.getSelectionModel().getSelectedItem().getId()));
 				}
 			}

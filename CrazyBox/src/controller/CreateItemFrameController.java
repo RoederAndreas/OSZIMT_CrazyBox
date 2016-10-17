@@ -1,6 +1,7 @@
 package controller;
 
 import entities.Case;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -8,6 +9,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
 public class CreateItemFrameController extends StageController{
@@ -34,7 +36,6 @@ public class CreateItemFrameController extends StageController{
 	
 	@FXML
 	public void initialize(){
-		comboSelectionCase.setCellFactory(listCallbackCaseList);
 		comboSelectionCase.setItems(startController.getAllCases());
 		createListener();
 	}
@@ -42,24 +43,6 @@ public class CreateItemFrameController extends StageController{
 	public void showCreateFrame(String name){
 		createNewStage(name);
 	}
-	
-	private Callback<ListView<Case>,ListCell<Case>> listCallbackCaseList = new Callback<ListView<Case>,ListCell<Case>>() {
-
-		@Override
-		public ListCell<Case> call(ListView<Case> param) {
-			ListCell<Case> t = new ListCell<Case>(){
-				protected void updateItem(Case item, boolean empty) {
-					super.updateItem(item,empty);
-					if(item != null){
-						setText(item.getName());
-					}else{
-						setText(null);
-					}
-				};
-			};
-			return t;
-		}
-	};
 	
 	private void createListener(){
 		btnCreateItem.setOnAction(event -> {

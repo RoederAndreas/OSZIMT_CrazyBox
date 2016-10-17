@@ -62,4 +62,9 @@ public class Item {
 	public void setSelectionCase(Case selectionCase) {
 		this.selectionCase = selectionCase;
 	}
+	
+	@Override
+	public String toString() {
+		return getDesignation();
+	}
 }
