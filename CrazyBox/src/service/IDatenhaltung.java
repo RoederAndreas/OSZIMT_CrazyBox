@@ -15,4 +15,6 @@ public interface IDatenhaltung {
 
 	ObservableList<Item> getItemFromCase(int id);
 	void createItem(Item item);
+	void deleteItem(int id);
+	void editItem(Item editItem);
 }

@@ -1,23 +1,16 @@
 package controller;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import entities.Case;
 import entities.Item;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
 import service.IDatenhaltung;
 
 public class StartFrameController implements Initializable{
@@ -42,6 +35,7 @@ public class StartFrameController implements Initializable{
 	@FXML
 	private Button btnDeleteItem;
 	private Case selctedCase;
+	private Item selctedItem;
 	private ObservableList<Case> getAllCases;
 	
 	public StartFrameController(IFachkonzept fachkonzept, IDatenhaltung datenhaltung) {
@@ -90,9 +84,23 @@ public class StartFrameController implements Initializable{
 		});
 		
 		btnCreateItem.setOnAction(event -> {
-			//Noch nicht korrekt 
 			CreateItemFrameController createItemCon = new CreateItemFrameController(this);
 			createItemCon.showCreateFrame("createItemFrame.fxml");
+		});
+		
+		btnEditItem.setOnAction(event -> {
+			if (listItems.getSelectionModel().getSelectedItem() != null){
+				EditItemFrameController editCon = new EditItemFrameController(this);
+				selctedItem = listItems.getSelectionModel().getSelectedItem();
+				editCon.showEditFrame("editItemFrame.fxml");
+			}else{System.out.println("Wähle etwas aus!");}
+		});
+		
+		btnDeleteItem.setOnAction(event -> {
+			if (listItems.getSelectionModel().getSelectedItem() != null){
+				fachkonzept.deleteItem(listItems.getSelectionModel().getSelectedItem().getId());
+				listItems.getItems().setAll(fachkonzept.findItemsFromCase(listItems.getSelectionModel().getSelectedItem().getSelectionCase().getId()));
+			}else{System.out.println("Wähle etwas aus!");}
 		});
 	}
 	
@@ -102,6 +110,10 @@ public class StartFrameController implements Initializable{
 	
 	public Case getSelctedCase(){
 		return selctedCase;
+	}
+	
+	public Item getSelctedItem(){
+		return selctedItem;
 	}
 	
 	public ListView<Case> getListViewCase(){

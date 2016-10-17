@@ -53,4 +53,15 @@ public class Fachkonzept1 implements IFachkonzept{
 	public void setDatenhaltung(IDatenhaltung datenhaltung) {
 		this.datenhaltung = datenhaltung;
 	}
+
+	@Override
+	public void deleteItem(int id) {
+		datenhaltung.deleteItem(id);
+	}
+
+	@Override
+	public void editItem(int id, String designation, int weight, String description, Case selectionCase) {
+		Item item = new Item(id, designation, weight, description, selectionCase);
+		datenhaltung.editItem(item);
+	}
 }

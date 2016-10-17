@@ -60,7 +60,6 @@ public class Datenhaltung1 implements IDatenhaltung{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	@Override
@@ -133,6 +132,31 @@ public class Datenhaltung1 implements IDatenhaltung{
 			statement.setInt(2, item.getWeight());
 			statement.setString(3, item.getDescription());
 			statement.setInt(5, item.getSelectionCase().getId());
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void deleteItem(int id) {
+		try {
+			PreparedStatement statement = connection.prepareStatement("DELETE FROM Gegenstand WHERE gegenstandID="+id);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void editItem(Item editItem) {
+		try {
+			PreparedStatement statement = connection.prepareStatement("Update Gegenstand SET bezeichnung=?, masse=?, beschreibung=?, gegenstandID=?, fk_kiste_id=? WHERE gegenstandID="+editItem.getId());
+			statement.setString(1, editItem.getDesignation());
+			statement.setInt(2, editItem.getWeight());
+			statement.setString(3, editItem.getDescription());
+			statement.setInt(4, editItem.getId());
+			statement.setInt(5, editItem.getSelectionCase().getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

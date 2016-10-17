@@ -46,13 +46,4 @@ public class CreateCaseFrameController extends StageController{
 			closeStage(btnCancel);
 		});
 	}
-	
-	private boolean isNumeric(String input){
-		try{
-			Integer.parseInt(input);
-		}catch(Exception e){
-			return false;
-		}
-		return true;
-	}
 }

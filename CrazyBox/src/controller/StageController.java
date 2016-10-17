@@ -26,4 +26,13 @@ public abstract class StageController {
 		Stage stage = (Stage) button.getScene().getWindow();
 	    stage.close();
 	}
+	
+	public boolean isNumeric(String input){
+		try{
+			Integer.parseInt(input);
+		}catch(Exception e){
+			return false;
+		}
+		return true;
+	}
 }

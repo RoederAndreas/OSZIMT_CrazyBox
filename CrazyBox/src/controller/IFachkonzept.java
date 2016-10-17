@@ -16,4 +16,6 @@ public interface IFachkonzept {
 	ObservableList<Case> showAllCases();
 	
 	void createItem(String designation, int weight, String description, Case selectionCase);
+	void deleteItem(int id);
+	void editItem(int id, String designation, int weight, String description, Case selectionCase);
 }

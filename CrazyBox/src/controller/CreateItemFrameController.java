@@ -1,16 +1,11 @@
 package controller;
 
 import entities.Case;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
 
 public class CreateItemFrameController extends StageController{
 
@@ -56,14 +51,5 @@ public class CreateItemFrameController extends StageController{
 		btnCancel.setOnAction(event -> {
 			closeStage(btnCancel);
 		});
-	}
-	
-	private boolean isNumeric(String input){
-		try{
-			Integer.parseInt(input);
-		}catch(Exception e){
-			return false;
-		}
-		return true;
 	}
 }
