@@ -2,15 +2,18 @@ package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import entities.Case;
-import entities.Item;
+
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import model.Case;
+import model.Item;
 import service.IDatenhaltung;
 
 public class StartFrameController implements Initializable{
@@ -59,7 +62,7 @@ public class StartFrameController implements Initializable{
 		});
 		
 		btnRenameCase.setOnAction(event -> {
-			if (listCase.getSelectionModel().getSelectedItem() != null){
+			if (listCase.getSelectionModel().getSelectedItem() != null && !listCase.getSelectionModel().getSelectedItem().getName().equals("Boden")){
 				EditCaseFrameController editCon = new EditCaseFrameController(this);
 				editCon.showEditFrame("editCaseFrame.fxml");
 				selctedCase = listCase.getSelectionModel().getSelectedItem();
@@ -67,8 +70,9 @@ public class StartFrameController implements Initializable{
 		});
 		
 		btnDeleteCase.setOnAction(event -> {
-			if (listCase.getSelectionModel().getSelectedItem() != null){
+			if (listCase.getSelectionModel().getSelectedItem() != null && !listCase.getSelectionModel().getSelectedItem().getName().equals("Boden")){
 				fachkonzept.deleteCase(listCase.getSelectionModel().getSelectedItem().getId());
+				fachkonzept.setItemsToGround(listCase.getSelectionModel().getSelectedItem().getId());
 				listCase.getItems().setAll(fachkonzept.showAllCases());
 			}else{System.out.println("Wähle etwas aus!");}
 		});	
@@ -79,6 +83,18 @@ public class StartFrameController implements Initializable{
 			public void handle(MouseEvent event) {
 				if (listCase.getSelectionModel().getSelectedItem() != null){
 					listItems.setItems(fachkonzept.findItemsFromCase(listCase.getSelectionModel().getSelectedItem().getId()));
+				}
+			}
+		});
+		
+		listItems.setOnMouseClicked(event -> {
+			if (listItems.getSelectionModel().getSelectedItem() != null){
+				if (event.getClickCount() == 2){
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Informationen");
+					alert.setHeaderText(null);
+					alert.setContentText("Bezeichnung: " + listItems.getSelectionModel().getSelectedItem().getDesignation() + "\n" + "Beschreibung: " + listItems.getSelectionModel().getSelectedItem().getDescription());
+					alert.showAndWait();
 				}
 			}
 		});

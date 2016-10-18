@@ -35,7 +35,7 @@ public class EditCaseFrameController extends StageController implements Initiali
 	
 	private void createListener(){
 		btnEdit.setOnAction(event ->{
-			if (!txtCaseName.getText().trim().equals("")){
+			if (!txtCaseName.getText().trim().equals("") && !txtCaseName.getText().trim().equals("Boden")){
 				startController.getFachkonzept().editCase(startController.getSelctedCase().getId(), startController.getSelctedCase().getPayload(), txtCaseName.getText());
 				startController.getListViewCase().getItems().setAll(startController.getFachkonzept().showAllCases());
 				closeStage(btnEdit);

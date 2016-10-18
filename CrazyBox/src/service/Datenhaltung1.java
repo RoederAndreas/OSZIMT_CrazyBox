@@ -7,10 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import entities.Case;
-import entities.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Case;
+import model.Item;
 
 public class Datenhaltung1 implements IDatenhaltung{
 
@@ -162,4 +162,24 @@ public class Datenhaltung1 implements IDatenhaltung{
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void setItemsToGround(int id) {
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement("Update Gegenstand SET fk_kiste_id=? WHERE fk_kiste_id="+id);
+			statement.setInt(1, 19);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Masse der Gegenstände zur bestimmten Kiste müssen zusammen gerechnet werden und ein Int zurückgegeben werden!
+//	@Override
+//	public int getItemsWeight(int caseID) {
+//		Statement stmt = connection.createStatement();
+//		ResultSet rs = stmt.executeQuery("SELECT SUM(masse) FROM Gegenstand WHERE fk_kiste_id="+caseID);
+//		return rs;
+//	}
 }

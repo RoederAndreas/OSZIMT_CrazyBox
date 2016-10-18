@@ -1,8 +1,8 @@
 package service;
 
-import entities.Case;
-import entities.Item;
 import javafx.collections.ObservableList;
+import model.Case;
+import model.Item;
 
 public interface IDatenhaltung {
 
@@ -17,4 +17,7 @@ public interface IDatenhaltung {
 	void createItem(Item item);
 	void deleteItem(int id);
 	void editItem(Item editItem);
+	
+	void setItemsToGround(int id);
+	//int getItemsWeight(int caseID);
 }

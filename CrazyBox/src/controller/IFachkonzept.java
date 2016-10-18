@@ -1,8 +1,8 @@
 package controller;
 
-import entities.Case;
-import entities.Item;
 import javafx.collections.ObservableList;
+import model.Case;
+import model.Item;
 import service.IDatenhaltung;
 
 public interface IFachkonzept {
@@ -18,4 +18,6 @@ public interface IFachkonzept {
 	void createItem(String designation, int weight, String description, Case selectionCase);
 	void deleteItem(int id);
 	void editItem(int id, String designation, int weight, String description, Case selectionCase);
+	
+	void setItemsToGround(int id);
 }

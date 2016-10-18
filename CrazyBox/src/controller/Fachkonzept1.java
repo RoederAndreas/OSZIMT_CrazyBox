@@ -1,8 +1,8 @@
 package controller;
 
-import entities.Case;
-import entities.Item;
 import javafx.collections.ObservableList;
+import model.Case;
+import model.Item;
 import service.IDatenhaltung;
 
 public class Fachkonzept1 implements IFachkonzept{
@@ -63,5 +63,10 @@ public class Fachkonzept1 implements IFachkonzept{
 	public void editItem(int id, String designation, int weight, String description, Case selectionCase) {
 		Item item = new Item(id, designation, weight, description, selectionCase);
 		datenhaltung.editItem(item);
+	}
+
+	@Override
+	public void setItemsToGround(int id) {
+		datenhaltung.setItemsToGround(id);
 	}
 }

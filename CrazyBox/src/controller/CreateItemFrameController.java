@@ -1,11 +1,13 @@
 package controller;
 
-import entities.Case;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import model.Case;
 
 public class CreateItemFrameController extends StageController{
 
@@ -22,6 +24,7 @@ public class CreateItemFrameController extends StageController{
 	@FXML
 	private Button btnCancel;
 	private static StartFrameController startController;
+	private ObservableList<Case> allCases = FXCollections.observableArrayList();
 	
 	public CreateItemFrameController(){}
 	
@@ -31,7 +34,13 @@ public class CreateItemFrameController extends StageController{
 	
 	@FXML
 	public void initialize(){
-		comboSelectionCase.setItems(startController.getAllCases());
+		for (Case case1 : startController.getAllCases()) {
+			if(!case1.getName().equals("Boden")){
+				allCases.add(case1);
+			}
+		}
+		
+		comboSelectionCase.setItems(allCases);
 		createListener();
 	}
 	
