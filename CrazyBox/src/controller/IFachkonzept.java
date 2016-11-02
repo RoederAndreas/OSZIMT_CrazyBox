@@ -20,4 +20,5 @@ public interface IFachkonzept {
 	void editItem(int id, String designation, int weight, String description, Case selectionCase);
 	
 	void setItemsToGround(int id);
+	int getItemsWeight(int caseID);
 }

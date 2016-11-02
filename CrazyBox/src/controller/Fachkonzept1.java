@@ -69,4 +69,9 @@ public class Fachkonzept1 implements IFachkonzept{
 	public void setItemsToGround(int id) {
 		datenhaltung.setItemsToGround(id);
 	}
+
+	@Override
+	public int getItemsWeight(int caseID) {
+		return datenhaltung.getItemsWeight(caseID);
+	}
 }

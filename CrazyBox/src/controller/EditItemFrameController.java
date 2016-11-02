@@ -50,9 +50,14 @@ public class EditItemFrameController extends StageController{
 	private void createListener(){
 		
 		btnSaveItem.setOnAction(event -> {
-			startController.getFachkonzept().editItem(startController.getSelctedItem().getId(), txtDesignation.getText(), Integer.parseInt(txtWeight.getText()), txtAreaDescription.getText(), comboSelectionCase.getSelectionModel().getSelectedItem());
-			startController.getListViewItem().setItems(startController.getFachkonzept().findItemsFromCase(comboSelectionCase.getSelectionModel().getSelectedItem().getId()));
-			closeStage(btnSaveItem);
+			if (!txtDesignation.getText().trim().equals("") && !txtWeight.getText().trim().equals("") && !txtWeight.getText().trim().equals("0") && isNumeric(txtWeight.getText().trim()) == true && comboSelectionCase.getSelectionModel().getSelectedItem() != null){
+				int sum = Integer.parseInt(txtWeight.getText()) + startController.getFachkonzept().getItemsWeight(startController.getListViewCase().getSelectionModel().getSelectedItem().getId());
+				if (startController.getListViewCase().getSelectionModel().getSelectedItem().getPayload() >= sum){
+					startController.getFachkonzept().editItem(startController.getSelctedItem().getId(), txtDesignation.getText(), Integer.parseInt(txtWeight.getText()), txtAreaDescription.getText(), comboSelectionCase.getSelectionModel().getSelectedItem());
+					startController.getListViewItem().setItems(startController.getFachkonzept().findItemsFromCase(comboSelectionCase.getSelectionModel().getSelectedItem().getId()));
+					closeStage(btnSaveItem);
+				}else{System.out.println("Gegenstand ist zu schwer!");}
+			}else{System.out.println("Nicht alle Pflichtfelder ausgefüllt!");}
 		});
 		
 		btnCancel.setOnAction(event -> {

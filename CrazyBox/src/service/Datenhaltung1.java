@@ -91,8 +91,8 @@ public class Datenhaltung1 implements IDatenhaltung{
 			while (rs.next()) {
 				int gID = rs.getInt("gegenstandID");
 				String designation = rs.getString("bezeichnung");
+				int weight = rs.getInt("masse");
 				String description = rs.getString("beschreibung");
-				int weight = rs.getInt("gegenstandID");
 				int myCase = rs.getInt("fk_kiste_id");
 				Case selectionCase = findCase(myCase);
 				Item myItem = new Item(gID, designation, weight, description, selectionCase);
@@ -176,10 +176,19 @@ public class Datenhaltung1 implements IDatenhaltung{
 	}
 
 	// Masse der Gegenstände zur bestimmten Kiste müssen zusammen gerechnet werden und ein Int zurückgegeben werden!
-//	@Override
-//	public int getItemsWeight(int caseID) {
-//		Statement stmt = connection.createStatement();
-//		ResultSet rs = stmt.executeQuery("SELECT SUM(masse) FROM Gegenstand WHERE fk_kiste_id="+caseID);
-//		return rs;
-//	}
+	@Override
+	public int getItemsWeight(int caseID) {
+		int sumAllItems = 0;
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT SUM(masse) FROM Gegenstand WHERE fk_kiste_id="+caseID);
+			while (rs.next()) {
+				sumAllItems = rs.getInt(1);
+			}
+			return sumAllItems;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
 }

@@ -19,5 +19,5 @@ public interface IDatenhaltung {
 	void editItem(Item editItem);
 	
 	void setItemsToGround(int id);
-	//int getItemsWeight(int caseID);
+	int getItemsWeight(int caseID);
 }

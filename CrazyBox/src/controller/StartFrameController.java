@@ -10,11 +10,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import model.Case;
 import model.Item;
 import service.IDatenhaltung;
+import view.Gui;
 
 public class StartFrameController implements Initializable{
 
@@ -93,7 +95,14 @@ public class StartFrameController implements Initializable{
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Informationen");
 					alert.setHeaderText(null);
-					alert.setContentText("Bezeichnung: " + listItems.getSelectionModel().getSelectedItem().getDesignation() + "\n" + "Beschreibung: " + listItems.getSelectionModel().getSelectedItem().getDescription());
+					alert.setContentText("Bezeichnung: " + listItems.getSelectionModel().getSelectedItem().getDesignation() + 
+							"\n" + "Masse: " + listItems.getSelectionModel().getSelectedItem().getWeight() + 
+							"\n" + "Beschreibung: " + listItems.getSelectionModel().getSelectedItem().getDescription() +
+							"\n" + "Kiste: " + listItems.getSelectionModel().getSelectedItem().getSelectionCase().getName()
+							);
+					DialogPane dialogPane = alert.getDialogPane();
+					dialogPane.getStylesheets().add(Gui.class.getResource("application.css").toExternalForm());
+					dialogPane.getStyleClass().add("myDialog");
 					alert.showAndWait();
 				}
 			}
