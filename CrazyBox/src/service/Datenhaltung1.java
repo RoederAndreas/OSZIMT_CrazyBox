@@ -20,7 +20,7 @@ public class Datenhaltung1 implements IDatenhaltung{
 	public void dbConnection() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			connection = DriverManager.getConnection("jdbc:sqlite:C:/Users/da/Desktop/SchulDB");
+			connection = DriverManager.getConnection("jdbc:sqlite:/CrazyBox/SchulDB");
 			System.out.println("Erfolgreich verbunden!");
 		} catch (ClassNotFoundException | SQLException e) {
 			System.out.println("Fehler!");
