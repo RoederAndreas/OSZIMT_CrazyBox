@@ -15,19 +15,19 @@ import model.Item;
 public class Datenhaltung1 implements IDatenhaltung{
 
 	private Connection connection = null;
-	
+
 	@Override
 	public void dbConnection() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			connection = DriverManager.getConnection("jdbc:sqlite:/CrazyBox/SchulDB");
+			connection = DriverManager.getConnection("jdbc:sqlite:SchulDB");
 			System.out.println("Erfolgreich verbunden!");
 		} catch (ClassNotFoundException | SQLException e) {
 			System.out.println("Fehler!");
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void createCase(Case createCase) {
 		try {
@@ -61,7 +61,7 @@ public class Datenhaltung1 implements IDatenhaltung{
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public ObservableList<Case> getAllCases() {
 		ObservableList<Case> allCases = FXCollections.observableArrayList();
