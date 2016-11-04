@@ -13,7 +13,7 @@ public class Gui extends Application {
 
 	private static IFachkonzept fachkonzept = null;
 	private static IDatenhaltung datenhaltung = null;
-	
+
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -28,23 +28,23 @@ public class Gui extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void setIFachkonzept(IFachkonzept fachkonzept){
 		this.fachkonzept = fachkonzept;
 	}
-	
+
 	public IFachkonzept getIFachkonzept(){
 		return fachkonzept;
 	}
-	
+
 	public void setIDatenhaltung(IDatenhaltung datenhaltung){
 		this.datenhaltung = datenhaltung;
 	}
-	
+
 	public IDatenhaltung getIDatenhaltung(){
 		return datenhaltung;
 	}
-	
+
 	public void startFXMLGUI(String[] args){
 		launch(args);
 	}

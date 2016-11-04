@@ -16,23 +16,23 @@ public class EditCaseFrameController extends StageController implements Initiali
 	@FXML
 	private Button btnCancel;
 	private static StartFrameController startController;
-	
+
 	public EditCaseFrameController(){}
 
 	public EditCaseFrameController(StartFrameController startController){
 		this.startController = startController;
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 		createListener();
 	}
-	
+
 	public void showEditFrame(String name){
 		createNewStage(name);
 	}
-	
+
 	private void createListener(){
 		btnEdit.setOnAction(event ->{
 			if (!txtCaseName.getText().trim().equals("") && !txtCaseName.getText().trim().equals("Boden")){
@@ -41,7 +41,7 @@ public class EditCaseFrameController extends StageController implements Initiali
 				closeStage(btnEdit);
 			}
 		});
-		
+
 		btnCancel.setOnAction(event -> {
 			closeStage(btnCancel);
 		});

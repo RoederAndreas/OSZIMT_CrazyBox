@@ -20,9 +20,9 @@ import view.Gui;
 
 public class StartFrameController implements Initializable{
 
-	private static IFachkonzept fachkonzept;
+	private IFachkonzept fachkonzept;
 	private IDatenhaltung datenhaltung;
-	
+
 	@FXML
 	private ListView<Case> listCase;
 	@FXML
@@ -42,12 +42,12 @@ public class StartFrameController implements Initializable{
 	private Case selctedCase;
 	private Item selctedItem;
 	private ObservableList<Case> getAllCases;
-	
+
 	public StartFrameController(IFachkonzept fachkonzept, IDatenhaltung datenhaltung) {
 		this.fachkonzept = fachkonzept;
 		this.datenhaltung = datenhaltung;
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		fachkonzept.setDatenhaltung(datenhaltung);
@@ -56,13 +56,13 @@ public class StartFrameController implements Initializable{
 		listCase.setItems(fachkonzept.showAllCases());
 		addListener();
 	}
-	
+
 	private void addListener(){
 		btnCreateCase.setOnAction(event -> {
 			CreateCaseFrameController createCon = new CreateCaseFrameController(this);
 			createCon.showCreateFrame("createCaseFrame.fxml");
 		});
-		
+
 		btnRenameCase.setOnAction(event -> {
 			if (listCase.getSelectionModel().getSelectedItem() != null && !listCase.getSelectionModel().getSelectedItem().getName().equals("Boden")){
 				EditCaseFrameController editCon = new EditCaseFrameController(this);
@@ -70,15 +70,15 @@ public class StartFrameController implements Initializable{
 				selctedCase = listCase.getSelectionModel().getSelectedItem();
 			}else{System.out.println("Wähle etwas aus!");}
 		});
-		
+
 		btnDeleteCase.setOnAction(event -> {
 			if (listCase.getSelectionModel().getSelectedItem() != null && !listCase.getSelectionModel().getSelectedItem().getName().equals("Boden")){
 				fachkonzept.deleteCase(listCase.getSelectionModel().getSelectedItem().getId());
 				fachkonzept.setItemsToGround(listCase.getSelectionModel().getSelectedItem().getId());
 				listCase.getItems().setAll(fachkonzept.showAllCases());
 			}else{System.out.println("Wähle etwas aus!");}
-		});	
-		
+		});
+
 		listCase.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
@@ -88,15 +88,15 @@ public class StartFrameController implements Initializable{
 				}
 			}
 		});
-		
+
 		listItems.setOnMouseClicked(event -> {
 			if (listItems.getSelectionModel().getSelectedItem() != null){
 				if (event.getClickCount() == 2){
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Informationen");
 					alert.setHeaderText(null);
-					alert.setContentText("Bezeichnung: " + listItems.getSelectionModel().getSelectedItem().getDesignation() + 
-							"\n" + "Masse: " + listItems.getSelectionModel().getSelectedItem().getWeight() + 
+					alert.setContentText("Bezeichnung: " + listItems.getSelectionModel().getSelectedItem().getDesignation() +
+							"\n" + "Masse: " + listItems.getSelectionModel().getSelectedItem().getWeight() +
 							"\n" + "Beschreibung: " + listItems.getSelectionModel().getSelectedItem().getDescription() +
 							"\n" + "Kiste: " + listItems.getSelectionModel().getSelectedItem().getSelectionCase().getName()
 							);
@@ -107,12 +107,12 @@ public class StartFrameController implements Initializable{
 				}
 			}
 		});
-		
+
 		btnCreateItem.setOnAction(event -> {
 			CreateItemFrameController createItemCon = new CreateItemFrameController(this);
 			createItemCon.showCreateFrame("createItemFrame.fxml");
 		});
-		
+
 		btnEditItem.setOnAction(event -> {
 			if (listItems.getSelectionModel().getSelectedItem() != null){
 				EditItemFrameController editCon = new EditItemFrameController(this);
@@ -120,7 +120,7 @@ public class StartFrameController implements Initializable{
 				editCon.showEditFrame("editItemFrame.fxml");
 			}else{System.out.println("Wähle etwas aus!");}
 		});
-		
+
 		btnDeleteItem.setOnAction(event -> {
 			if (listItems.getSelectionModel().getSelectedItem() != null){
 				fachkonzept.deleteItem(listItems.getSelectionModel().getSelectedItem().getId());
@@ -128,27 +128,27 @@ public class StartFrameController implements Initializable{
 			}else{System.out.println("Wähle etwas aus!");}
 		});
 	}
-	
-	public static IFachkonzept getFachkonzept(){
+
+	public IFachkonzept getFachkonzept(){
 		return fachkonzept;
 	}
-	
+
 	public Case getSelctedCase(){
 		return selctedCase;
 	}
-	
+
 	public Item getSelctedItem(){
 		return selctedItem;
 	}
-	
+
 	public ListView<Case> getListViewCase(){
 		return listCase;
 	}
-	
+
 	public ListView<Item> getListViewItem(){
 		return listItems;
 	}
-	
+
 	public ObservableList<Case> getAllCases(){
 		return getAllCases;
 	}

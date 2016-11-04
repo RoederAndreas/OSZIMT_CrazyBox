@@ -25,13 +25,13 @@ public class CreateItemFrameController extends StageController{
 	private Button btnCancel;
 	private static StartFrameController startController;
 	private ObservableList<Case> allCases = FXCollections.observableArrayList();
-	
+
 	public CreateItemFrameController(){}
-	
+
 	public CreateItemFrameController(StartFrameController startController){
 		this.startController = startController;
 	}
-	
+
 	@FXML
 	public void initialize(){
 		for (Case case1 : startController.getAllCases()) {
@@ -39,15 +39,15 @@ public class CreateItemFrameController extends StageController{
 				allCases.add(case1);
 			}
 		}
-		
+
 		comboSelectionCase.setItems(allCases);
 		createListener();
 	}
-	
+
 	public void showCreateFrame(String name){
 		createNewStage(name);
 	}
-	
+
 	private void createListener(){
 		btnCreateItem.setOnAction(event -> {
 			if (!txtDesignation.getText().trim().equals("") && !txtWeight.getText().trim().equals("") && !txtWeight.getText().trim().equals("0") && isNumeric(txtWeight.getText().trim()) == true && comboSelectionCase.getSelectionModel().getSelectedItem() != null){
@@ -59,7 +59,7 @@ public class CreateItemFrameController extends StageController{
 				}else{System.out.println("Gegenstand zu schwer!");}
 			}else{System.out.println("Nicht alle Pflichtfelder ausgefüllt!");}
 		});
-		
+
 		btnCancel.setOnAction(event -> {
 			closeStage(btnCancel);
 		});

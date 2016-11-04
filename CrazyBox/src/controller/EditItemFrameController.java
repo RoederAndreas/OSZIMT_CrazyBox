@@ -22,33 +22,33 @@ public class EditItemFrameController extends StageController{
 	@FXML
 	private Button btnCancel;
 	private static StartFrameController startController;
-	
+
 	public EditItemFrameController(){}
-	
+
 	public EditItemFrameController(StartFrameController startController){
 		this.startController = startController;
 	}
-	
+
 	@FXML
 	public void initialize(){
 		comboSelectionCase.setItems(startController.getAllCases());
 		setAllValues();
 		createListener();
 	}
-	
+
 	public void showEditFrame(String name){
 		createNewStage(name);
 	}
-	
+
 	private void setAllValues(){
 		txtDesignation.setText(startController.getSelctedItem().getDesignation());
 		txtWeight.setText(Integer.toString(startController.getSelctedItem().getWeight()));
 		txtAreaDescription.setText(startController.getSelctedItem().getDescription());
 		comboSelectionCase.setValue(startController.getSelctedItem().getSelectionCase());
 	}
-	
+
 	private void createListener(){
-		
+
 		btnSaveItem.setOnAction(event -> {
 			if (!txtDesignation.getText().trim().equals("") && !txtWeight.getText().trim().equals("") && !txtWeight.getText().trim().equals("0") && isNumeric(txtWeight.getText().trim()) == true && comboSelectionCase.getSelectionModel().getSelectedItem() != null){
 				int sum = Integer.parseInt(txtWeight.getText()) + startController.getFachkonzept().getItemsWeight(startController.getListViewCase().getSelectionModel().getSelectedItem().getId());
@@ -59,7 +59,7 @@ public class EditItemFrameController extends StageController{
 				}else{System.out.println("Gegenstand ist zu schwer!");}
 			}else{System.out.println("Nicht alle Pflichtfelder ausgefüllt!");}
 		});
-		
+
 		btnCancel.setOnAction(event -> {
 			closeStage(btnCancel);
 		});
