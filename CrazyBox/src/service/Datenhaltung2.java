@@ -1,5 +1,7 @@
 package service;
 
+import java.io.File;
+
 import javafx.collections.ObservableList;
 import model.Case;
 import model.Item;
@@ -27,7 +29,12 @@ public class Datenhaltung2 implements IDatenhaltung {
 	@Override
 	public void dbConnection() {
 		// TODO Auto-generated method stub
-
+		File dataFile = new File("data.json");
+		if (!dataFile.exists()) {
+			try {
+				dataFile.createNewFile();
+			} catch (Exception e) {}
+		}
 	}
 
 	@Override
