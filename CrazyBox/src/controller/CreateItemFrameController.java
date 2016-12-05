@@ -49,6 +49,7 @@ public class CreateItemFrameController extends StageController{
 	}
 
 	private void createListener(){
+		comboSelectionCase.getItems().setAll(startController.getFachkonzept().showAllCases());
 		btnCreateItem.setOnAction(event -> {
 			if (!txtDesignation.getText().trim().equals("") && !txtWeight.getText().trim().equals("") && !txtWeight.getText().trim().equals("0") && isNumeric(txtWeight.getText().trim()) == true && comboSelectionCase.getSelectionModel().getSelectedItem() != null){
 				int sum = Integer.parseInt(txtWeight.getText()) + startController.getFachkonzept().getItemsWeight(startController.getListViewCase().getSelectionModel().getSelectedItem().getId());
