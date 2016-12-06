@@ -34,7 +34,7 @@ public class CreateCaseFrameController extends StageController{
 	private void createListener(){
 		btnSaveCase.setOnAction(event -> {
 			if (!txtNameCase.getText().trim().equals("Boden")){
-				if (!txtNameCase.getText().trim().equals("") && !txtPayloadCase.getText().trim().equals("") && isNumeric(txtPayloadCase.getText().trim()) == true){
+				if (!txtNameCase.getText().trim().equals("") && !txtPayloadCase.getText().trim().equals("") && isNumeric(txtPayloadCase.getText().trim()) == true && Integer.parseInt(txtPayloadCase.getText().trim()) > 0){
 					startController.getFachkonzept().createCase(Integer.parseInt(txtPayloadCase.getText().trim()), txtNameCase.getText().trim());
 					startController.getListViewCase().getItems().setAll(startController.getFachkonzept().showAllCases());
 					closeStage(btnSaveCase);

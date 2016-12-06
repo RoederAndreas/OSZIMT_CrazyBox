@@ -51,7 +51,7 @@ public class CreateItemFrameController extends StageController{
 	private void createListener(){
 		comboSelectionCase.getItems().setAll(startController.getFachkonzept().showAllCases());
 		btnCreateItem.setOnAction(event -> {
-			if (!txtDesignation.getText().trim().equals("") && !txtWeight.getText().trim().equals("") && !txtWeight.getText().trim().equals("0") && isNumeric(txtWeight.getText().trim()) == true && comboSelectionCase.getSelectionModel().getSelectedItem() != null){
+			if (!txtDesignation.getText().trim().equals("") && !txtWeight.getText().trim().equals("") && !txtWeight.getText().trim().equals("0") && isNumeric(txtWeight.getText().trim()) == true && comboSelectionCase.getSelectionModel().getSelectedItem() != null && Integer.parseInt(txtWeight.getText().trim()) > 0){
 				int sum = Integer.parseInt(txtWeight.getText()) + startController.getFachkonzept().getItemsWeight(startController.getListViewCase().getSelectionModel().getSelectedItem().getId());
 				if (startController.getListViewCase().getSelectionModel().getSelectedItem().getPayload() >= sum){
 				startController.getFachkonzept().createItem(txtDesignation.getText(), Integer.parseInt(txtWeight.getText()), txtAreaDescription.getText(), comboSelectionCase.getSelectionModel().getSelectedItem());
