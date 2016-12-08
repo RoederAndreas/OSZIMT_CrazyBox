@@ -2,11 +2,16 @@ package service;
 
 import java.io.File;
 
+import org.json.JSONObject;
+
 import javafx.collections.ObservableList;
 import model.Case;
 import model.Item;
 
 public class Datenhaltung2 implements IDatenhaltung {
+
+	private File dataFile = null;
+	private JSONObject dataObject = null;
 
 	@Override
 	public ObservableList<Case> getAllCases() {
@@ -29,7 +34,7 @@ public class Datenhaltung2 implements IDatenhaltung {
 	@Override
 	public void dbConnection() {
 		// TODO Auto-generated method stub
-		File dataFile = new File("data.json");
+		dataFile = new File("data.json");
 		if (!dataFile.exists()) {
 			try {
 				dataFile.createNewFile();
