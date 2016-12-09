@@ -1,16 +1,15 @@
 package service;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import model.Case;
 import model.Item;
@@ -18,18 +17,30 @@ import model.Item;
 public class Datenhaltung2 implements IDatenhaltung {
 
 	private File dataFile = null;
-	private FileWriter dataFileWriter = null;
-	private FileReader dataFileReader = null;
 	private JSONObject dataObject = null;
 	private int caseAutoId = 0;
-	private int itemAutoid = 0;
+	private int itemAutoId = 0;
 
 	private int getCaseAutoId() {
 		return ++caseAutoId;
 	}
 
 	private int getItemAutoId() {
-		return ++itemAutoid;
+		return ++itemAutoId;
+	}
+
+	private void setAutoIds() {
+		JSONArray cases = dataObject.getJSONArray("cases");
+		for (int i = 0; i < cases.length(); i++) {
+			int caseId = cases.getJSONObject(i).getInt("id");
+			if (caseId > caseAutoId) caseAutoId = caseId;
+		}
+		JSONArray items = dataObject.getJSONArray("items");
+		for (int i = 0; i < items.length(); i++) {
+			int itemId = items.getJSONObject(i).getInt("id");
+			if (itemId > itemAutoId) itemAutoId = itemId;
+		}
+		System.out.println("caseAutoId: " + caseAutoId + "; itemAutoId: " + itemAutoId);
 	}
 
 	private JSONObject getCaseById(int id) {
@@ -66,10 +77,11 @@ public class Datenhaltung2 implements IDatenhaltung {
 
 	private void saveChanges() {
 		try {
+			FileWriter dataFileWriter = new FileWriter(dataFile);
 			dataFileWriter.write(dataObject.toString());
 			dataFileWriter.flush();
 			dataFileWriter.close();
-		} catch (IOException e) {System.err.println("IOException: Writing to file");}
+		} catch (IOException e) {System.err.println("IOException: Writing to file\n" + e.getMessage());}
 	}
 
 	@Override
@@ -86,42 +98,36 @@ public class Datenhaltung2 implements IDatenhaltung {
 
 	@Override
 	public void deleteCase(int id) {
-		// TODO Auto-generated method stub
-
+		int index = getCaseIndexById(id);
+		dataObject.getJSONArray("cases").remove(index);
+		saveChanges();
 	}
 
 	@Override
 	public void editCase(Case editCase) {
-		// TODO Auto-generated method stub
-
+		int index = getCaseIndexById(editCase.getId());
+		dataObject.getJSONArray("cases").put(index, JSONObject.wrap(editCase));
+		saveChanges();
 	}
 
 	@Override
 	public void dbConnection() {
-		// TODO Auto-generated method stub
 		dataFile = new File("data.json");
-		if (!dataFile.exists()) {
-			try {
+		dataObject = new JSONObject();
+		try {
+			if (!dataFile.exists()) { // TODO: should also apply if file exists, but is empty or doesn't contain valid JSON
 				dataFile.createNewFile();
-				dataObject = new JSONObject();
 				dataObject.put("cases", new JSONArray());
 				dataObject.put("items", new JSONArray());
-				dataFileWriter = new FileWriter(dataFile);
-				dataFileReader = new FileReader(dataFile);
-				saveChanges();
-			} catch (IOException e) {System.err.println("IOException: File creation");}
-		}
-//		else {
-//			try {
-//				dataFileWriter = new FileWriter(dataFile);
-//				dataFileReader = new FileReader(dataFile);
-//				BufferedReader testReader = new BufferedReader(dataFileReader);
-//				String input = testReader.readLine();
-//				System.out.println(input);
-//				dataObject = new JSONObject(input);
-//				System.out.println("File Contents: " + dataObject.toString());
-//			} catch (IOException e) {System.err.println("IOException: FileReader/Writer initialization");}
-//		}
+			} else {
+				byte[] encoded = Files.readAllBytes(Paths.get("data.json"));
+				String decoded = new String(encoded);
+				System.out.println(decoded);
+				dataObject = new JSONObject(decoded);
+				setAutoIds();
+			}
+			saveChanges();
+		} catch (IOException e) {System.err.println("IOException: File creation");}
 	}
 
 	@Override
@@ -139,27 +145,46 @@ public class Datenhaltung2 implements IDatenhaltung {
 
 	@Override
 	public ObservableList<Item> getItemFromCase(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		ObservableList<Item> items = FXCollections.observableArrayList();
+		JSONArray itemData = dataObject.getJSONArray("items");
+		for (int i = 0; i < itemData.length(); i++) {
+			JSONObject item = itemData.getJSONObject(i);
+			
+			int caseId = item.getInt("selectionCase");
+			if (caseId != id) continue;
+			
+			int itemId = item.getInt("id");
+			int weight = item.getInt("weight");
+			String designation = item.getString("designation");
+			String description = item.getString("description");
+			
+			Item realItem = new Item(itemId, designation, weight, description, findCase(caseId));
+			items.add(realItem);
+		}
+		return items;
 	}
 
 	@Override
 	public void createItem(Item item) {
 		item.setId(getItemAutoId());
 		dataObject.append("items", JSONObject.wrap(item));
+		correctItemToCaseRelation(item);
 		saveChanges();
 	}
 
 	@Override
 	public void deleteItem(int id) {
-		// TODO Auto-generated method stub
-
+		int index = getItemIndexById(id);
+		dataObject.getJSONArray("items").remove(index);
+		saveChanges();
 	}
 
 	@Override
 	public void editItem(Item editItem) {
-		// TODO Auto-generated method stub
-
+		int index = getItemIndexById(editItem.getId());
+		dataObject.getJSONArray("items").put(index, JSONObject.wrap(editItem));
+		correctItemToCaseRelation(editItem);
+		saveChanges();
 	}
 
 	@Override
@@ -172,6 +197,13 @@ public class Datenhaltung2 implements IDatenhaltung {
 	public int getItemsWeight(int caseID) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	private void correctItemToCaseRelation(Item item) {
+		int index = getItemIndexById(item.getId());
+		JSONObject jsonItem = dataObject.getJSONArray("items").getJSONObject(index);
+		jsonItem.put("selectionCase", jsonItem.getJSONObject("selectionCase").getInt("id"));
+		saveChanges();
 	}
 
 }
