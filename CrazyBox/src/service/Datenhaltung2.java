@@ -43,14 +43,6 @@ public class Datenhaltung2 implements IDatenhaltung {
 		System.out.println("caseAutoId: " + caseAutoId + "; itemAutoId: " + itemAutoId);
 	}
 
-	private JSONObject getCaseById(int id) {
-		JSONArray cases = dataObject.getJSONArray("cases");
-		for (int i = 0; i < cases.length(); i++) {
-			if (cases.getJSONObject(i).getInt("id") == id) return cases.getJSONObject(i);
-		}
-		return null;
-	}
-
 	private JSONObject getItemById(int id) {
 		JSONArray items = dataObject.getJSONArray("items");
 		for (int i = 0; i < items.length(); i++) {
@@ -139,7 +131,10 @@ public class Datenhaltung2 implements IDatenhaltung {
 
 	@Override
 	public Case findCase(int id) {
-		// TODO Auto-generated method stub
+		ObservableList<Case> allCases = getAllCases();
+		for (Case box : allCases) {
+			if (box.getId() == id) return box;
+		}
 		return null;
 	}
 
@@ -149,15 +144,15 @@ public class Datenhaltung2 implements IDatenhaltung {
 		JSONArray itemData = dataObject.getJSONArray("items");
 		for (int i = 0; i < itemData.length(); i++) {
 			JSONObject item = itemData.getJSONObject(i);
-			
+
 			int caseId = item.getInt("selectionCase");
 			if (caseId != id) continue;
-			
+
 			int itemId = item.getInt("id");
 			int weight = item.getInt("weight");
 			String designation = item.getString("designation");
 			String description = item.getString("description");
-			
+
 			Item realItem = new Item(itemId, designation, weight, description, findCase(caseId));
 			items.add(realItem);
 		}
@@ -189,14 +184,20 @@ public class Datenhaltung2 implements IDatenhaltung {
 
 	@Override
 	public void setItemsToGround(int id) {
-		// TODO Auto-generated method stub
-
+		ObservableList<Item> items = getItemFromCase(id);
+		for (Item item : items) {
+			JSONObject dbItem = getItemById(item.getId());
+			dbItem.put("selectionCase", 0);
+		}
+		saveChanges();
 	}
 
 	@Override
 	public int getItemsWeight(int caseID) {
-		// TODO Auto-generated method stub
-		return 0;
+		ObservableList<Item> items = getItemFromCase(caseID);
+		int total = 0;
+		for (Item item : items) total += item.getWeight();
+		return total;
 	}
 
 	private void correctItemToCaseRelation(Item item) {
