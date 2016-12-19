@@ -1,6 +1,7 @@
 package view;
 
 import controller.Fachkonzept1;
+import controller.Fachkonzept2;
 import service.Datenhaltung1;
 import service.Datenhaltung2;
 

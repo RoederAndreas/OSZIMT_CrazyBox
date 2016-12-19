@@ -1,6 +1,8 @@
 package model;
 
-public class Item {
+import java.util.Comparator;
+
+public class Item implements Comparator<Item>, Comparable<Item> {
 
 	private int id;
 	private String designation;
@@ -66,5 +68,15 @@ public class Item {
 	@Override
 	public String toString() {
 		return getDesignation();
+	}
+
+	@Override
+	public int compare(Item o1, Item o2) {
+		return o1.designation.compareToIgnoreCase(o2.designation);
+	}
+
+	@Override
+	public int compareTo(Item o) {
+		return this.designation.compareToIgnoreCase(o.designation);
 	}
 }
