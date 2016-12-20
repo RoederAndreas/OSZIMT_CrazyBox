@@ -1,0 +1,1 @@
+{"cases":[{"payload":2147483647,"name":"Boden","id":0},{"payload":400,"name":"Schuppen","id":1}],"items":[{"selectionCase":0,"weight":500,"description":"Fährt umher","id":1,"designation":"Auto"},{"selectionCase":1,"weight":100,"description":"Rollt umher","id":2,"designation":"Fahrrad"}]}

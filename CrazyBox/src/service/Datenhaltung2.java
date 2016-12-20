@@ -111,6 +111,8 @@ public class Datenhaltung2 implements IDatenhaltung {
 				dataFile.createNewFile();
 				dataObject.put("cases", new JSONArray());
 				dataObject.put("items", new JSONArray());
+				Case floor = new Case(0, Integer.MAX_VALUE, "Boden");
+				dataObject.append("cases", JSONObject.wrap(floor));
 			} else {
 				byte[] encoded = Files.readAllBytes(Paths.get("data.json"));
 				String decoded = new String(encoded);
